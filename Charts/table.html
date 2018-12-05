@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Table</title>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	
+</head>
+<body>
+	<table id="example" class="display" style="width:100%; ">
+    </table>
+
+</body>
+<script type="text/javascript">
+		$(document).ready( function () {
+			const list = { 'headers': ['s1', 's2', 's3'],
+								 'months' : ['July', 'August', 'September'],
+							 'data': {
+							     'July'     : [10, 20, 40],
+							     'August'   : [10, 20, 40],
+							     'September': [10, 20, 40],
+							  }
+							};
+    
+            // Creating headers and appending to the table
+			var thead = "";
+			var th = "";
+			for(var i = 0 ; i < list['headers'].length ; i++){
+			   	th = th + "<th>"  + list['headers'][i] + "</th>";
+			}
+			thead =  "<thead>"+ th + "</thead>"
+			$("#example").html(thead);
+
+			// Creating td's and appending to the table
+			tr= ""
+			for(var i = 0 ; i < list['months'].length ; i++){
+			   	tr = "<tr>"
+			   	td = ""
+			   	for(var i = 0 ; i < list['data'].length ; i++){
+			   		td = td + "<td>" + list['data'][i] + "</td>"
+			   		debugger;
+			   	}
+			}
+
+
+
+			// for (var i = header ; i >= 0; i--) {
+			// 	Things[i]
+			// }
+    		// $('#example').DataTable({
+    		// 	"paging":   false,
+      //   		"ordering": false,
+      //   		"info":     false,
+      //   		"searching": false
+    		// });
+    		// $("#col-header").click(function(){
+    		// 	$("#example").remove();
+      //   		// alert("The paragraph was clicked.");
+    		// });
+
+		} );
+	</script>
+</html>

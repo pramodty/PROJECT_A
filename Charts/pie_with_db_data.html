@@ -1,0 +1,346 @@
+
+<style type="text/css">
+    #chart text {
+        fill: black;
+        font: 10px sans-serif;
+        text-anchor: end;
+    }
+
+    .axis text {
+        font: 10px sans-serif;
+    }
+
+    .axis path, .axis line {
+        fill: none;
+        /*stroke: #fff;*/
+        shape-rendering: crispEdges;
+    }
+
+    body {
+        /*background: #1a1a1a;*/
+        color: #eaeaea;
+        padding: 10px;
+    }
+
+    path {
+        stroke: steelblue;
+        stroke-width: 2;
+        fill: none;
+    }
+</style>
+<div id="chart" style="height:600px;width:600px">
+    <div class="innerCont" style="overflow: auto; top:100px; left: 400px; height:91% ; Width:100% ;position: relative;overflow: hidden;" />
+</div>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" charset="utf-8"></script>
+<script src="https://d3js.org/d3.v2.min.js"></script>
+<script type="text/javascript">
+    var salesData;
+    var chartInnerDiv = '<div class="innerCont" style="overflow: auto;top:100px; left: 400px; height:91% ; Width:100% ;position: relative;overflow: hidden;"/>';
+    var truncLengh = 30;
+
+    $(document).ready(function () {
+        Plot();
+    });
+    chartOptions = [{
+        "captions": [{ "INDIA": "INDIA", "CANADA": "CANADA", "USA": "USA" }],
+        // "color": [{ "INDIA": "#FFA500", "CANADA": "#0070C0", "USA": "#ff0000" }],
+        "xaxis": "Country",
+        "xaxisl1": "Model",
+        "yaxis": "Total"
+    }]
+    runningColors = ["#ff0000", "#FFA500","#0070C0"]
+    color1 = [{ "A002": "#FFA500", "A033": "#0070C0", "USA": "#ff0000" }]
+    color2 = [{ "Model 1": "#00FF00", "Model 2": "#0000FF", "Model 3": "#800000", "Model 4": "#808000", "Model 5": "#00FFFF" }]
+
+
+    // Hard coded data
+    color1 = [{ "A002": "#FFA500", "A033": "#0070C0" }]
+    var runningData = [{Country: "A002", Total: 2, caption: "A002", title: "A002", op: 1}, 
+                    {Country: "A033", Total: 1, caption: "A033", title: "A033", op: 1}];
+
+    color_A002 = [{ "A003": "#800000", "A004": "#ff0000" }]
+    var data_A002 = [{Country: "A003", Total: 1, caption: "A003", title: "A003", op: 1}, 
+                    {Country: "A004", Total: 2, caption: "A004", title: "A004", op: 1}];
+
+    color_A003 = [{ "A005": "#800080", "A006": "#FF00FF" }]
+    var data_A003 = [{Country: "A005", Total: 1, caption: "A005", title: "A005", op: 1}, 
+                    {Country: "A006", Total: 2, caption: "A006", title: "A006", op: 1}];
+
+    color_A004 = [{ "A007": "#000080", "A008": "#0000FF" }]
+    var data_A004 = [{Country: "A007", Total: 2, caption: "A007", title: "A007", op: 1}, 
+                    {Country: "A008", Total: 1, caption: "A008", title: "A008", op: 1}];                    
+
+    color_A005 = [{ "A009": "#808000", "A010": "#FFFF00" }]
+    var data_A005 = [{Country: "A009", Total: 2, caption: "A009", title: "A009", op: 1}, 
+                    {Country: "A010", Total: 1, caption: "A010", title: "A010", op: 1}]; 
+
+    color_A006 = [{ "A011": "   #800000", "A012": "#FF0000" }]
+    var data_A006 = [{Country: "A011", Total: 1, caption: "A011", title: "A011", op: 1}, 
+                    {Country: "A012", Total: 2, caption: "A012", title: "A012", op: 1}]; 
+
+    color_A007 = [{ "A013": "#000000", "A014": "#808080" }]
+    var data_A007 = [{Country: "A013", Total: 2, caption: "A013", title: "A013", op: 1}, 
+                    {Country: "A014", Total: 1, caption: "A014", title: "A014", op: 1}]; 
+
+    color_A008 = [{ "A015": "#C0C0C0", "A016": "#00FFFF" }]
+    var data_A008 = [{Country: "A015", Total: 1, caption: "A015", title: "A015", op: 1}, 
+                    {Country: "A016", Total: 2, caption: "A016", title: "A016", op: 1}]; 
+
+
+
+    color_A033 = [{ "A034": "#808000", "A035": "#00FF00" }]
+    var data_A033 = [{Country: "A034", Total: 1, caption: "A034", title: "A034", op: 1}, 
+                    {Country: "A035", Total: 2, caption: "A035", title: "A035", op: 1}];
+
+    color_A034 = [{ "A036": "#008080", "A037": "#00FFFF" }]
+    var data_A034 = [{Country: "A036", Total: 1, caption: "A036", title: "A036", op: 1}, 
+                    {Country: "A037", Total: 2, caption: "A037", title: "A037", op: 1}];
+
+    color_A035 = [{ "A038": "#008000", "A039": "#00FF00" }]
+    var data_A035 = [{Country: "A038", Total: 1, caption: "A038", title: "A038", op: 1}, 
+                    {Country: "A039", Total: 2, caption: "A039", title: "A039", op: 1}];
+
+    color_A036 = [{ "A040": "#800080", "A041": "#FF00FF" }]
+    var data_A036 = [{Country: "A040", Total: 1, caption: "A040", title: "A040", op: 1}, 
+                    {Country: "A041", Total: 2, caption: "A041", title: "A041", op: 1}];
+
+    color_A037 = [{ "A042": "#000080", "A043": "#0000FF" }]
+    var data_A037 = [{Country: "A042", Total: 1, caption: "A042", title: "A042", op: 1}, 
+                    {Country: "A043", Total: 2, caption: "A043", title: "A043", op: 1}];
+
+    color_A038 = [{ "A044": "#008000", "A045": "#00FF00" }]
+    var data_A038 = [{Country: "A044", Total: 1, caption: "A044", title: "A044", op: 1}, 
+                    {Country: "A045", Total: 2, caption: "A045", title: "A045", op: 1}];                                                                           
+    color_A039 = [{ "A046": "#00FFFF", "A047": "#008000" }]
+    var data_A039 = [{Country: "A046", Total: 1, caption: "A046", title: "A046", op: 1}, 
+                    {Country: "A047", Total: 2, caption: "A047", title: "A047", op: 1}]; 
+
+    var data1 = [{Country: "Model 1", Total: 487, op: 1}, {Country: "Model 2", Total: 185, op: 1}, {Country: "Model 3", Total: 140, op: 1}, {Country: "Model 4", Total: 108, op: 1}, {Country: "Model 5", Total: 26, op: 1}];
+
+    function Plot() {
+        // TransformChartData(chartData, chartOptions, 0);
+        BuildPie("chart", runningData, chartOptions, color1, 0) 
+    }
+
+    function BuildPie(id, chartData, options, color, level) {   
+        var xVarName;
+        var divisionRatio = 2.5;
+        var legendoffset = (level == 0) ? 0 : -40;
+
+        d3.selectAll("#" + id + " .innerCont").remove();
+        $("#" + id).append(chartInnerDiv);
+        chart = d3.select("#" + id + " .innerCont");
+        color = color;
+        var yVarName = options[0].yaxis;
+        width = $(chart[0]).outerWidth(),
+        height = $(chart[0]).outerHeight(),
+        radius = Math.min(width, height) / divisionRatio;
+        xVarName = options[0].xaxis;
+        var rcolor = d3.scale.ordinal().range(runningColors);
+
+        arc = d3.svg.arc()
+                .outerRadius(radius)
+                .innerRadius(radius - 200);
+
+        var arcOver = d3.svg.arc().outerRadius(radius + 20).innerRadius(radius - 180);
+
+        chart = chart
+                .append("svg")  //append svg element inside #chart
+                .attr("width", width)    //set width
+                .attr("height", height)  //set height
+                .append("g")
+                .attr("transform", "translate(" + (width / divisionRatio) + "," + ((height / divisionRatio) + 30) + ")");
+
+        var pie = d3.layout.pie()
+                    .sort(null)
+                    .value(function (d) {
+                        return d.Total;
+                    });
+
+        var g = chart.selectAll(".arc")
+                    .data(pie(chartData))
+                    .enter().append("g")
+                    .attr("class", "arc");
+
+        var count = 0;
+
+        var path = g.append("path")
+                    .attr("d", arc)
+                    .attr("id", function (d) { return "arc-" + (count++); })
+                    .style("opacity", function (d) {
+                        return d.data["op"];
+                    });
+
+        path.on("mouseenter", function (d) {
+            d3.select(this)
+                .attr("stroke", "white")
+                .transition()
+                .duration(200)
+                .attr("d", arcOver)
+                .attr("stroke-width", 1);
+        })
+         .on("mouseleave", function (d) {
+             d3.select(this).transition()
+                 .duration(200)
+                 .attr("d", arc)
+                 .attr("stroke", "none");
+         })
+         .on("click", function(actual, i){
+            if (actual.data.caption == 'A002') {
+                BuildPie("chart", data_A002, chartOptions, color_A002, 0);
+            } else if (actual.data.caption == 'A033') {
+                BuildPie("chart", data_A033, chartOptions, color_A033, 0);
+            } else if (actual.data.caption == 'A003') {
+                BuildPie("chart", data_A003, chartOptions, color_A003, 0);
+            } else if (actual.data.caption == 'A004') {
+                BuildPie("chart", data_A004, chartOptions, color_A004, 0);
+            } else if (actual.data.caption == 'A034') {
+                BuildPie("chart", data_A034, chartOptions, color_A034, 0);
+            } else if (actual.data.caption == 'A035') {
+                BuildPie("chart", data_A035, chartOptions, color_A035, 0);
+            } else if (actual.data.caption == 'A005') {
+                BuildPie("chart", data_A005, chartOptions, color_A005, 0);
+            } else if (actual.data.caption == 'A006') {
+                BuildPie("chart", data_A006, chartOptions, color_A006, 0);
+            } else if (actual.data.caption == 'A007') {
+                BuildPie("chart", data_A007, chartOptions, color_A007, 0);
+            } else if (actual.data.caption == 'A008') {
+                BuildPie("chart", data_A008, chartOptions, color_A008, 0);
+            } else if (actual.data.caption == 'A036') {
+                BuildPie("chart", data_A036, chartOptions, color_A036, 0);
+            } else if (actual.data.caption == 'A037') {
+                BuildPie("chart", data_A037, chartOptions, color_A037, 0);
+            } else if (actual.data.caption == 'A038') {
+                BuildPie("chart", data_A038, chartOptions, color_A038, 0);
+            } else if (actual.data.caption == 'A039') {
+                BuildPie("chart", data_A039, chartOptions, color_A039, 0);
+            } else {
+                BuildPie("chart", runningData, chartOptions, color1, 0) ;
+            }
+         });
+         // .on("click", function (d) {
+         //     if (this._listenToEvents) {
+         //         // Reset inmediatelly
+         //         d3.select(this).attr("transform", "translate(0,0)")
+         //         // Change level on click if no transition has started
+         //         path.each(function () {
+         //             this._listenToEvents = false;
+         //         });
+         //     }
+         //     d3.selectAll("#" + id + " svg").remove();
+         //     var nonSortedChart = data1.sort(function (a, b) {
+         //        return parseFloat(b[options[0].yaxis]) - parseFloat(a[options[0].yaxis]);
+         //     });
+         //     if (level == 0) {
+         //        BuildPie(id, nonSortedChart, options, color2, 1);
+         //     } else {
+         //        BuildPie("chart", runningData, chartOptions, color1, 0) ;
+         //     }
+         //     // if (level == 1) {
+         //     //     TransformChartData(chartData, options, 0, d.data[xVarName]);
+         //     //     BuildPie(id, chartData, options, 0);
+         //     // }
+         //     // else {
+         //     //     var nonSortedChart = chartData.sort(function (a, b) {
+         //     //         return parseFloat(b[options[0].yaxis]) - parseFloat(a[options[0].yaxis]);
+         //     //     });
+         //     //     TransformChartData(nonSortedChart, options, 1, d.data[xVarName]);
+         //     //     BuildPie(id, nonSortedChart, options, 1);
+         //     // }
+
+         // });
+
+        path.append("svg:title")
+        .text(function (d) {
+            return d.data["Country"] + " (" + d.data[yVarName] + ")";
+        });
+
+        path.style("fill", function (d) {
+            // return rcolor(d.data[xVarName]);
+            return color[0][(d.data[xVarName])];
+        })
+         .transition().duration(1000).attrTween("d", tweenIn).each("end", function () {
+             this._listenToEvents = true;
+         });
+
+
+        g.append("text")
+         .attr("transform", function (d) { return "translate(" + arc.centroid(d) + ")"; })
+         .attr("dy", ".35em")
+         .style("text-anchor", "middle")
+         .style("opacity", 1)
+         .text(function (d) {
+             return d.data[yVarName];
+         });
+
+        count = 0;
+        var legend = chart.selectAll(".legend")
+            .data(chartData).enter()
+            .append("g").attr("class", "legend")
+            .attr("legend-id", function (d) {
+                return count++;
+            })
+            .attr("transform", function (d, i) {
+                return "translate(15," + (parseInt("-" + (chartData.length * 10)) + i * 28 + legendoffset) + ")";
+            })
+            .style("cursor", "pointer")
+            .on("click", function () {
+                var oarc = d3.select("#" + id + " #arc-" + $(this).attr("legend-id"));
+                oarc.style("opacity", 0.3)
+                .attr("stroke", "white")
+                .transition()
+                .duration(200)
+                .attr("d", arcOver)
+                .attr("stroke-width", 1);
+                setTimeout(function () {
+                    oarc.style("opacity", function (d) {
+                        return d.data["op"];
+                    })
+                   .attr("d", arc)
+                   .transition()
+                   .duration(200)
+                   .attr("stroke", "none");
+                }, 1000);
+            });
+
+        var leg = legend.append("rect");
+
+        leg.attr("x", width / 2)
+            .attr("width", 18).attr("height", 18)
+            .style("fill", function (d) {
+                // return rcolor(d[yVarName]);
+                return color[0][d[xVarName]];
+            })
+            .style("opacity", function (d) {
+                return d["op"];
+            });
+        legend.append("text").attr("x", (width / 2) - 5)
+            .attr("y", 9).attr("dy", ".35em")
+            .style("text-anchor", "end").text(function (d) {
+                return d.Country;
+            });
+
+        leg.append("svg:title")
+        .text(function (d) {
+            return d["Country"] + " (" + d[yVarName] + ")";
+        });
+
+        function tweenOut(data) {
+            data.startAngle = data.endAngle = (2 * Math.PI);
+            var interpolation = d3.interpolate(this._current, data);
+            this._current = interpolation(0);
+            return function (t) {
+                return arc(interpolation(t));
+            };
+        }
+
+        function tweenIn(data) {
+            var interpolation = d3.interpolate({ startAngle: 0, endAngle: 0 }, data);
+            this._current = interpolation(0);
+            return function (t) {
+                return arc(interpolation(t));
+            };
+        }
+
+    }
+</script>

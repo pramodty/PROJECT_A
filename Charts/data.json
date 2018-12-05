@@ -1,0 +1,28 @@
+[
+    {
+        "categorie": "Student", 
+        "values": [
+            {
+                "value": 0, 
+                "rate": "Not at all"
+            }, 
+            {
+                "value": 4, 
+                "rate": "Not very much"
+            }, 
+            {
+                "value": 12, 
+                "rate": "Medium"
+            }, 
+            {
+                "value": 6, 
+                "rate": "Very much"
+            }, 
+            {
+                "value": 0, 
+                "rate": "Tremendously"
+            }
+        ]
+    }
+    
+]

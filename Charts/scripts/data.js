@@ -1,0 +1,46 @@
+var chartData = [];
+
+var getValues = function() {
+  var labs = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
+  var ourData = [];
+
+  for (var i=0; i< labs.length; i++) {
+    ourData.push({
+      label: labs[i],
+      value: Math.floor(Math.random()*100)-50
+    })
+  }
+  return ourData;
+}
+
+var refreshChartData = function() {
+  chartData = [
+    {
+      key: "Cumulative Return",
+      values: getValues()
+    }
+  ]; 
+}
+
+var lineData = function() {
+    var sin = [],
+      cos = [];
+
+  for (var i = 0; i < 100; i++) {
+    sin.push({x: i, y: Math.sin(i/10)});
+    cos.push({x: i, y: .5 * Math.cos(i/10)});
+  }
+
+  return [
+    {
+      values: sin,
+      key: 'Sine Wave',
+      color: '#ff7f0e'
+    },
+    {
+      values: cos,
+      key: 'Cosine Wave',
+      color: '#2ca02c'
+    }
+  ];
+}

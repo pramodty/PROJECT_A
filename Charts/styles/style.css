@@ -1,0 +1,7 @@
+div .row{
+	margin-bottom: 10px;
+}
+
+#chart svg {
+  height: 400px;
+}

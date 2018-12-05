@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Charts</title>
+
+<link rel="stylesheet"  href="styles/bootstrap_337.css">
+<link rel="stylesheet"  href="styles/nvd3_181.css">
+<link rel="stylesheet"  href="styles/style.css">
+
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<h2> Charts</h2>
+					Charts: 
+					<select id="charts">
+						<option value="selection">Select Chart</option>
+    					<option value="Bar">Bar</option>
+    					<option value="Line">Line</option>
+					</select>
+				<!--<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Charts List
+  					<span class="caret"></span></button>
+  					<ul class="dropdown-menu">
+    					<li><a href="#">Bar</a></li>
+    					<li><a href="#">Line</a></li>
+    					<li><a href="#">Pie</a></li>
+  					</ul>
+  				-->
+				<button type="button" class="btn btn-primary" id="btnLoadChart">Load chart</button>
+				<button type="button" class="btn btn-primary" id="btnClearChart">Clear chart</button>
+				<button type="button" class="btn btn-primary" id="refreshChartData">Refresh Chart</button>
+
+			</div>	
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading heading123">NDV3 Distribution Bar Chart</div>
+					<div class="panel-body"></div>
+					<div id="chart">
+  						<svg></svg>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="scripts/jquery321.js"></script>
+	<script src="scripts/d3v3.js"></script>
+	<script src="scripts/nvd3_181.js"></script>
+	<script src="scripts/data.js"></script>
+	<script src="scripts/function.js"></script>
+</body>
+</html>
