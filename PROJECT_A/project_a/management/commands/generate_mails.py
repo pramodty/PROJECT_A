@@ -45,8 +45,10 @@ class Command(BaseCommand):
             ['pramod@headrun.com'], # List of email addresses also accepted
             'pramod.ece091@gmail.com',
             subject='Welcome!',
-            html_message=render_to_string('project_a/test.html', {'name':'tyson'}),
+            html_message=render_to_string('project_a/test.html', {'data':{'Ashok':[('Band', 1),\
+                ('Tood', 2)],'Khan': [('Mat', 6),('Rat', 7)], 'Ash': [('Cool', 3) , ('Float', 4), ('Loop', 5)]}}),
             # scheduled_time=date(2014, 1, 1),
+            headers={'Reply-to': 'reply@example.com', 'Content-Type':'text/html'},
             context={'name': 'Alice'},
         )         
         try:
